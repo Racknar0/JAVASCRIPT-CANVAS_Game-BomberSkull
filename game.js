@@ -45,6 +45,8 @@ function startGame() {
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map((row) => row.trim().split(''));
 
+    game.clearRect(0, 0, canvasSize, canvasSize);
+
     mapRowCols.forEach((row, rowI) => {
         row.forEach((col, colI) => {
             const emoji = emojis[col];
@@ -52,16 +54,26 @@ function startGame() {
             const posY = elementsSize * (rowI + 1);
 
             if (col === "O") {
-                playerPosition.x = posX;
-                playerPosition.y = posY;
+                if (!playerPosition.x && !playerPosition.y) {
+                    playerPosition.x = posX;
+                    playerPosition.y = posY;
+                    console.log(playerPosition);
+                }
             }
 
             game.fillText(emoji, posX, posY);
         });
     });
 
+    movePlayer(playerPosition);
+
+}
+
+function movePlayer(playerPosition) {
     game.fillText(emojis.PLAYER, playerPosition.x, playerPosition.y);
 }
+
+
 
 window.addEventListener('keydown', moveByKeys);
 
@@ -90,17 +102,33 @@ function moveByKeys(event) {
 }
 
 function moveUp() {
-    console.log('up');
+    if ((playerPosition.y - elementsSize) < elementsSize) {
+        return;
+    }
+    playerPosition.y -= elementsSize
+    startGame();
 }
 
 function moveLeft() {
-    console.log('left');
+    if ((playerPosition.x - elementsSize) < elementsSize) {
+        return;
+    }
+    playerPosition.x -= elementsSize
+    startGame();
 }
 
 function moveRight() {
-    console.log('right');
+    if ((playerPosition.x + elementsSize) > canvasSize) {
+        return;
+    }
+    playerPosition.x += elementsSize
+    startGame();
 }
 
 function moveDown() {
-    console.log('down');
+    if ((playerPosition.y + elementsSize) > canvasSize ) {
+        return;
+    }
+    playerPosition.y += elementsSize
+    startGame();
 }
