@@ -55,9 +55,9 @@ btnDown.addEventListener('click', moveDown);
 //! Setear el tamaño del canvas
 function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
-        canvasSize = window.innerWidth * 0.6;
+        canvasSize = window.innerWidth * 0.7;
     } else {
-        canvasSize = window.innerHeight * 0.6;
+        canvasSize = window.innerHeight * 0.7;
     }
 
     /* canvasSize = canvasSize.toFixed(2); */
