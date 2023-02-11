@@ -8,6 +8,8 @@ let timeStart;
 let timePlayer;
 let timeInterval;
 
+let gameIsStarted = false;
+
 const playerPosition = {
     x: undefined,
     y: undefined,
@@ -29,6 +31,16 @@ const spanLives = document.querySelector('#lives');
 const spanTime = document.querySelector('#time');
 const spanRecord = document.querySelector('#record');
 const spanResult = document.querySelector('#result');
+const begin_game_container = document.querySelector('.begin_game_container');
+
+const ufoDiv = document.querySelector('.ufo');
+ufoDiv.addEventListener('click', () => {
+    begin_game_container.setAttribute('style', 'display: none');
+    setCanvasSize();
+    gameIsStarted = true;
+});
+
+
 
 const reset_button = document.querySelector('#reset_button');
 reset_button.addEventListener('click', resetGame);
@@ -40,27 +52,27 @@ function resetGame() {
 
 const canvas = document.querySelector('#game');
 const game = canvas.getContext('2d');
-
 //! Eventos de carga y redimensionamiento
-window.addEventListener('load', setCanvasSize);
+/* window.addEventListener('load', setCanvasSize); */
 window.addEventListener('resize', setCanvasSize);
 
-//! Eventos de movimiento
-window.addEventListener('keydown', moveByKeys);
-btnUp.addEventListener('click', moveUp);
-btnLeft.addEventListener('click', moveLeft);
-btnRight.addEventListener('click', moveRight);
-btnDown.addEventListener('click', moveDown);
+
+    //! Eventos de movimiento
+    window.addEventListener('keydown', moveByKeys);
+    btnUp.addEventListener('click', moveUp);
+    btnLeft.addEventListener('click', moveLeft);
+    btnRight.addEventListener('click', moveRight);
+    btnDown.addEventListener('click', moveDown);
+
 
 //! Setear el tamaño del canvas
 function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
-        canvasSize = window.innerWidth * 0.7;
+        canvasSize = window.innerWidth * 0.6;
     } else {
-        canvasSize = window.innerHeight * 0.7;
+        canvasSize = window.innerHeight * 0.6;
     }
 
-    /* canvasSize = canvasSize.toFixed(2); */
 
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
@@ -79,7 +91,7 @@ function setCanvasSize() {
 function startGame() {
 
     console.log({canvasSize, elementsSize});
-    console.log({level, lives});
+    /* console.log({level, lives}); */
     showLives();
 
     game.font = elementsSize + 'px Verdana';
@@ -220,7 +232,7 @@ function setRecord() {
 
 function showLives() {
     const heartsArray = Array(lives).fill(emojis['HEART']);
-    console.log(heartsArray);
+    /* console.log(heartsArray); */
     spanLives.innerHTML = heartsArray.join('');
 }
 
