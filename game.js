@@ -1,11 +1,19 @@
 //! Tamaño del canvas
 let canvasSize;
 let elementsSize;
+let level = 0;
 
 const playerPosition = {
     x: undefined,
     y: undefined,
 };
+
+const goalPosition = {
+    x: undefined,
+    y: undefined,
+};
+
+let enemyPositions = [];
 
 const btnUp = document.querySelector('#up');
 const btnLeft = document.querySelector('#left');
@@ -21,6 +29,7 @@ const game = canvas.getContext('2d');
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
 
+//! Setear el tamaño del canvas
 function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
         canvasSize = window.innerWidth * 0.8;
@@ -31,6 +40,7 @@ function setCanvasSize() {
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
 
+    //! tamaño de los elementos
     elementsSize = canvasSize / 10 - 1.5;
 
     startGame();
@@ -41,11 +51,20 @@ function startGame() {
     game.font = elementsSize + 'px Verdana';
     game.textAlign = 'end';
 
-    const map = maps[0];
+    //! mapa
+    const map = maps[level];
+    if (!map) {
+        gameWin();
+        return;
+    }
+
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map((row) => row.trim().split(''));
 
+    //! limpiar el canvas
     game.clearRect(0, 0, canvasSize, canvasSize);
+    //! limpiar las posiciones
+    enemyPositions = [];
 
     mapRowCols.forEach((row, rowI) => {
         row.forEach((col, colI) => {
@@ -53,25 +72,66 @@ function startGame() {
             const posX = elementsSize * (colI + 1) + 15;
             const posY = elementsSize * (rowI + 1);
 
+            //! posicion del jugador
             if (col === "O") {
                 if (!playerPosition.x && !playerPosition.y) {
                     playerPosition.x = posX;
                     playerPosition.y = posY;
-                    console.log(playerPosition);
+                    
                 }
+            } else if (col === "I") {
+                goalPosition.x = posX;
+                goalPosition.y = posY;
+            } else if (col === "X") {
+                enemyPositions.push({x: posX, y: posY});
             }
 
             game.fillText(emoji, posX, posY);
         });
+
+        
     });
 
+    console.log({playerPosition, goalPosition });
     movePlayer(playerPosition);
 
 }
 
 function movePlayer(playerPosition) {
+
+    //! colision con el objetivo
+    const huboColisionX = playerPosition.x.toFixed(2) === goalPosition.x.toFixed(2);
+    const huboColisionY = playerPosition.y.toFixed(2) === goalPosition.y.toFixed(2);
+    const huboColision = huboColisionX && huboColisionY;
+
+    if (huboColision) {
+        levelWin();
+    }
+
+    //! colision con enemigos
+    const enmemyCollision = enemyPositions.find((enemy) => {
+        const huboColisionX = playerPosition.x.toFixed(2) === enemy.x.toFixed(2);
+        const huboColisionY = playerPosition.y.toFixed(2) === enemy.y.toFixed(2);
+        return huboColisionX && huboColisionY;
+    });
+
+    if (enmemyCollision) {
+        console.log('Perdiste');
+    }
+
     game.fillText(emojis.PLAYER, playerPosition.x, playerPosition.y);
 }
+
+function levelWin() {
+    console.log('Subiste de nivel');
+    level++;
+    startGame();
+}
+
+function gameWin() {
+    console.log('Ganaste el juego');
+}
+
 
 
 
@@ -83,7 +143,7 @@ btnRight.addEventListener('click', moveRight);
 btnDown.addEventListener('click', moveDown);
 
 
-
+//! mover el jugador con las flechas
 function moveByKeys(event) {
     switch (event.key) {
         case 'ArrowUp':
