@@ -4,6 +4,10 @@ let elementsSize;
 let level = 0;
 let lives = 3;
 
+let timeStart;
+let timePlayer;
+let timeInterval;
+
 const playerPosition = {
     x: undefined,
     y: undefined,
@@ -22,14 +26,23 @@ const btnDown = document.querySelector('#down');
 const btnRight = document.querySelector('#right');
 
 const spanLives = document.querySelector('#lives');
+const spanTime = document.querySelector('#time');
 
 /** @type {HTMLCanvasElement} */
 
 const canvas = document.querySelector('#game');
 const game = canvas.getContext('2d');
 
+//! Eventos de carga y redimensionamiento
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
+
+//! Eventos de movimiento
+window.addEventListener('keydown', moveByKeys);
+btnUp.addEventListener('click', moveUp);
+btnLeft.addEventListener('click', moveLeft);
+btnRight.addEventListener('click', moveRight);
+btnDown.addEventListener('click', moveDown);
 
 //! Setear el tamaño del canvas
 function setCanvasSize() {
@@ -48,6 +61,7 @@ function setCanvasSize() {
     startGame();
 }
 
+//! Funcion para iniciar el juego
 function startGame() {
 
     console.log({level, lives});
@@ -61,6 +75,12 @@ function startGame() {
     if (!map) {
         gameWin();
         return;
+    }
+
+    //! Iniciar el tiempo
+    if (!timeStart) {
+        timeStart = Date.now();
+        timeInterval = setInterval(showTime, 100);
     }
 
     const mapRows = map.trim().split('\n');
@@ -91,6 +111,7 @@ function startGame() {
                 enemyPositions.push({x: posX, y: posY});
             }
 
+            //! dibujar el mapa
             game.fillText(emoji, posX, posY);
         });
 
@@ -102,6 +123,7 @@ function startGame() {
 
 }
 
+//! Funcion para mover al jugador
 function movePlayer(playerPosition) {
 
     //! colision con el objetivo
@@ -146,6 +168,7 @@ function levelLose() {
         level = 0;
         console.log('Perdiste el juego');
         lives = 3;
+        timeStart = undefined;
     }
 
     playerPosition.x = undefined;
@@ -157,22 +180,36 @@ function levelLose() {
 //! si se gana el juego
 function gameWin() {
     console.log('Ganaste el juego');
+    clearInterval(timeInterval);
 }
 
 function showLives() {
     const heartsArray = Array(lives).fill(emojis['HEART']);
     console.log(heartsArray);
-
     spanLives.innerHTML = heartsArray.join('');
 }
 
+function showTime() {
+    const time = Date.now() - timeStart;
+    spanTime.innerHTML = formatTime(time);
+    //formatear el tiempo
+    /* const time = Date.now() - timeStart;
+    const seconds = Math.floor(time / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
 
-window.addEventListener('keydown', moveByKeys);
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    spanTime.innerHTML = timeString; */
+}
 
-btnUp.addEventListener('click', moveUp);
-btnLeft.addEventListener('click', moveLeft);
-btnRight.addEventListener('click', moveRight);
-btnDown.addEventListener('click', moveDown);
+function formatTime(time_ms) {
+    let minutes = Math.floor(time_ms / 1000 / 60);
+    let seconds = Math.floor(time_ms / 1000 % 60);
+    let milliseconds = time_ms % 1000;
+  
+    return minutes + "Min ** " + seconds + " Sec ** " + milliseconds + " Ms";
+}
+
 
 
 //! mover el jugador con las flechas
@@ -190,7 +227,7 @@ function moveByKeys(event) {
         case 'ArrowDown':
             moveDown();
             break;
-}
+    }
 }
 
 function moveUp() {
