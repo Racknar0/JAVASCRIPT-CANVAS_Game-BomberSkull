@@ -21,6 +21,7 @@ const btnLeft = document.querySelector('#left');
 const btnDown = document.querySelector('#down');
 const btnRight = document.querySelector('#right');
 
+const spanLives = document.querySelector('#lives');
 
 /** @type {HTMLCanvasElement} */
 
@@ -50,6 +51,7 @@ function setCanvasSize() {
 function startGame() {
 
     console.log({level, lives});
+    showLives();
 
     game.font = elementsSize + 'px Verdana';
     game.textAlign = 'end';
@@ -139,6 +141,7 @@ function levelLose() {
     console.log('Perdiste una vida', lives);
     lives--;
 
+
     if (lives <= 0) {
         level = 0;
         console.log('Perdiste el juego');
@@ -156,7 +159,12 @@ function gameWin() {
     console.log('Ganaste el juego');
 }
 
+function showLives() {
+    const heartsArray = Array(lives).fill(emojis['HEART']);
+    console.log(heartsArray);
 
+    spanLives.innerHTML = heartsArray.join('');
+}
 
 
 window.addEventListener('keydown', moveByKeys);
