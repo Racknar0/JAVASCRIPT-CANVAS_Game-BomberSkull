@@ -40,9 +40,9 @@ maps.push(`
   XX----XXXX
   XX-XXXXXXX
   XX--------
-  XXXXXXXXX-
-  XXOXXXXXX-
-  XX-XXXXXX-
+  XXXXXXXX--
+  XXOXXXXX--
+  XX-XXXXX--
   XX--XXXX--
   XXX------X
 `);
