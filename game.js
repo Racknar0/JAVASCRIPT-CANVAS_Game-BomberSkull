@@ -27,6 +27,8 @@ const btnRight = document.querySelector('#right');
 
 const spanLives = document.querySelector('#lives');
 const spanTime = document.querySelector('#time');
+const spanRecord = document.querySelector('#record');
+const spanResult = document.querySelector('#result');
 
 /** @type {HTMLCanvasElement} */
 
@@ -81,6 +83,7 @@ function startGame() {
     if (!timeStart) {
         timeStart = Date.now();
         timeInterval = setInterval(showTime, 100);
+        showRecord();
     }
 
     const mapRows = map.trim().split('\n');
@@ -181,7 +184,26 @@ function levelLose() {
 function gameWin() {
     console.log('Ganaste el juego');
     clearInterval(timeInterval);
+    setRecord();
 }
+
+//! Funcion para guardar el record
+function setRecord() {
+    const recordTime = localStorage.getItem('recordTime');
+    if (recordTime) {
+       const playerTime = Date.now() - timeStart;
+         if (recordTime > playerTime) {
+            localStorage.setItem('recordTime', playerTime);
+            spanResult.innerHTML = 'Superaste el record';
+        } else {
+            spanResult.innerHTML = 'No superaste el record';
+        }
+    } else {
+        localStorage.setItem('recordTime', Date.now() - timeStart);
+        spanResult.innerHTML = 'Primera vez? trata de mejorar el record';
+    }
+}
+
 
 function showLives() {
     const heartsArray = Array(lives).fill(emojis['HEART']);
@@ -191,15 +213,16 @@ function showLives() {
 
 function showTime() {
     const time = Date.now() - timeStart;
-    spanTime.innerHTML = formatTime(time);
-    //formatear el tiempo
-    /* const time = Date.now() - timeStart;
-    const seconds = Math.floor(time / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
+    spanTime.innerHTML = formatTime(time)
+}
 
-    const timeString = `${hours}:${minutes}:${seconds}`;
-    spanTime.innerHTML = timeString; */
+function showRecord() {
+    const recordTime = localStorage.getItem('recordTime');
+    if (recordTime) {
+        spanRecord.innerHTML = formatTime(recordTime);
+        return;
+    }
+    spanRecord.innerHTML = 'No hay record';
 }
 
 function formatTime(time_ms) {

@@ -22,7 +22,7 @@ maps.push(`
   -XXXXXXXXX
   OXXXXXXXXX
 `);
-maps.push(`
+/* maps.push(`
   O--XXXXXXX
   X--XXXXXXX
   XX----XXXX
@@ -45,4 +45,4 @@ maps.push(`
   XX-XXXXXX-
   XX--XXXX--
   XXX------X
-`);
+`); */
