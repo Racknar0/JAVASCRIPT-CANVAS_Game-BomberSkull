@@ -4,51 +4,43 @@ body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+    font-family: 'Orbitron', sans-serif;
 }
 
-.game-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    height: 100vh;
-    width: 100vw;
+.p5Canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 
-canvas {
-    border: 4px solid #ff6600;
+.button {
+    background-color: #1fec04;
     border-radius: 8px;
-    background-color: #feff9d;
-}
-
-.btns {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 0 auto;
-    width: 100%;
-}
-
-button {
-    background-color: #fdef05;
-    border-radius: 8px;
-    border-color: #ff6600;
+    border-color: #ffffff;
     font-family: inherit;
     margin: 0;
     padding: 5px 20px;
-    width: 100px;
+    font-size: 1rem;
+    width: 120px;
 }
 
-button:not(:last-child) {
+.button:hover {
+    background-color: #ffffff;
+    color: #1fec04;
+    cursor: pointer;
+}
+
+/* .button:not(:last-child) {
     margin-right: 10px;
-}
+} */
 
-.messages {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 auto;
-    width: 80%;
-    max-width: 460px;
+canvas {
+    border: 4px solid #1fec04;
+    border-radius: 8px;
+    background-color: #feff9d;
+
 }
 
 p {
@@ -57,14 +49,62 @@ p {
     width: 100%;
 }
 
-@media (max-width: 440px) {
-    button {
-        margin-top: 25px;
-    }
+h1{ 
+    text-align: center;
+    font-size: 3rem;
+    margin: 2rem 0 0 0;
+    padding: 0;
+}
 
-    #up,
-    #down {
-        margin-left: 100%;
-        margin-right: 100%;
-    }
+.game-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-height: 100vh;
+    width: 100vw;
+}
+
+
+.btns {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2rem 0 0 0;
+    max-width: 400px;
+}
+
+
+.messages {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto 20px auto;
+    width: 80%;
+    max-width: 440px
+}
+
+.messages p {
+    text-align: center;
+}
+
+#down {
+    margin: 5px 0 0 0;
+}
+
+#up {
+    position: relative;
+    top: -10px;
+}
+
+#left {
+    position: relative;
+    left: -10px;
+    top: 15px;
+}
+
+#right {
+    position: relative;
+    left: 10px;
+    top: 15px;
 }
