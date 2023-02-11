@@ -3,7 +3,7 @@ const emojis = {
     O: '🚪',
     X: '💣',
     I: '🎁',
-    PLAYER: '💀',
+    PLAYER: '😀',
     BOMB_COLLISION: '🔥',
     GAME_OVER: '👎',
     WIN: '🏆',
@@ -28,9 +28,9 @@ maps.push(`
   X--XX-XXXX
   X-XXX--XXX
   X-XXXX-XXX
-  XX--XX--XX
-  XX--XXX-XX
-  XXXX---IXX
+  XXI-XX--XX
+  XX---XX-XX
+  XXXX----XX
   XXXXXXXXXX
   `);
 maps.push(`
