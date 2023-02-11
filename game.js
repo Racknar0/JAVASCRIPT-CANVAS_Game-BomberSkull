@@ -2,6 +2,7 @@
 let canvasSize;
 let elementsSize;
 let level = 0;
+let lives = 3;
 
 const playerPosition = {
     x: undefined,
@@ -47,6 +48,8 @@ function setCanvasSize() {
 }
 
 function startGame() {
+
+    console.log({level, lives});
 
     game.font = elementsSize + 'px Verdana';
     game.textAlign = 'end';
@@ -115,19 +118,40 @@ function movePlayer(playerPosition) {
         return huboColisionX && huboColisionY;
     });
 
+    //! si hay colision con enemigo
     if (enmemyCollision) {
-        console.log('Perdiste');
+        levelLose();
     }
 
     game.fillText(emojis.PLAYER, playerPosition.x, playerPosition.y);
 }
 
+//! si se supera el nivel
 function levelWin() {
     console.log('Subiste de nivel');
     level++;
     startGame();
 }
 
+//! si se pierde el nivel
+function levelLose() {
+    console.log('Chocaste con un enemigo');
+    console.log('Perdiste una vida', lives);
+    lives--;
+
+    if (lives <= 0) {
+        level = 0;
+        console.log('Perdiste el juego');
+        lives = 3;
+    }
+
+    playerPosition.x = undefined;
+    playerPosition.y = undefined;
+    startGame();
+
+}
+
+//! si se gana el juego
 function gameWin() {
     console.log('Ganaste el juego');
 }

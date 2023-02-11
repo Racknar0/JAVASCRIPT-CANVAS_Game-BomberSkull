@@ -38,10 +38,10 @@ maps.push(`
   XXXXX-XXXX
   XX----XXXX
   XX-XXXXXXX
-  XX-----XXX
-  XXXXXX-XXX
-  XX-----XXX
-  XX-XXXXXXX
-  XX-----OXX
-  XXXXXXXXXX
+  XX--------
+  XXXXXXXXX-
+  XXOXXXXXX-
+  XX-XXXXXX-
+  XX--XXXX--
+  XXX------X
 `);
